@@ -13,12 +13,13 @@ devtools::install_github('bbc/bbplot')
 
 # source https://www.kaggle.com/datasets/tirendazacademy/fifa-world-cup-2022-tweets
 # variables: X, Date.Created, Number.of.Likes, Sentiment, Source.of.Tweet, Tweet
-tweets <- read.csv("fifa_wc_22_tweets/fifa_world_cup_2022_tweets.csv", header = TRUE)
+tweets <- read.csv("fifa_world_cup_2022_tweets.csv", header = TRUE)
 
 # Question:
 #   What is the ratio of likes for positive tweets vs negative tweets
 sentiment_frame <- tweets %>% 
   group_by(Sentiment) %>% 
+  mutate(Sentiment = str_to_title(Sentiment)) %>% 
   summarise(Total = sum(Number.of.Likes), .groups = "drop")
 
 sentiment_img <- ggplot(sentiment_frame, aes(x = Sentiment, y = Total)) + 
@@ -29,6 +30,6 @@ sentiment_img <- ggplot(sentiment_frame, aes(x = Sentiment, y = Total)) +
 
 finalise_plot(plot_name = sentiment_img,
               source_name = "https://www.kaggle.com/datasets/tirendazacademy/fifa-world-cup-2022-tweets",
-              save_filepath = "fifa_wc_22_tweets/fifa_wc22_sentiment.png",
+              save_filepath = "fifa_wc22_sentiment.png",
               width_pixels = 600,
               height_pixels = 400)
